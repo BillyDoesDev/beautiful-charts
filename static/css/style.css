@@ -1,0 +1,112 @@
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #121212;
+    color: #eee;
+    margin: 0;
+    padding: 20px;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+h1 {
+    color: #eee;
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.chart-container {
+    background-color: #1e1e2e;
+    border-radius: 10px;
+    padding: 20px;
+    margin-bottom: 30px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+}
+
+.chart-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.chart-card {
+    flex: 1;
+    min-width: 300px;
+    max-width: 500px;
+}
+
+.chart-title {
+    text-align: center;
+    color: #eee;
+    margin-bottom: 15px;
+    font-size: 18px;
+    font-weight: 500;
+}
+
+.chart-subtitle {
+    text-align: center;
+    color: #aaa;
+    margin-top: -10px;
+    margin-bottom: 15px;
+    font-size: 14px;
+    font-style: italic;
+}
+
+.full-width {
+    width: 100%;
+    max-width: 100%;
+}
+
+.gauge-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+}
+
+.rarity-description {
+    position: absolute;
+    top: 100%;
+    margin-top: -25px;
+    font-size: 16px;
+    font-weight: bold;
+    color: #DCB7F4;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.time-legend {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 5px;
+    flex-wrap: wrap;
+}
+
+.legend-item {
+    display: flex;
+    align-items: center;
+    font-size: 12px;
+    color: #ccc;
+}
+
+.legend-color {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    margin-right: 5px;
+}
+
+canvas {
+    max-width: 100%;
+}
+
+@media (max-width: 768px) {
+    .chart-card {
+        min-width: 100%;
+    }
+}
