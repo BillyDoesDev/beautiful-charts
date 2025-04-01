@@ -1,50 +1,117 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dream Analysis Dashboard</title>
-    <!-- <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}"> -->
+    <title>Oneiro RAG</title>
+    <link rel="icon" type="image/x-icon" href="../static/assets/favicon.ico">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <link rel="stylesheet" href="../static/css/style.css">
+    <script defer src="{{ url_for('static', filename='main.js') }}"></script>
 </head>
+
 <body>
-    <div class="container">
-        <h1>Dream Analysis Dashboard</h1>
+    <div class="heading-container">
+        <svg class="dream-svg" viewBox="0 -960 800.98442 800.01564" version="1.1" id="svg1"
+            sodipodi:docname="moon_stars_24dp_E3E3E3_FILL0_wght400_GRAD0_opsz24.svg"
+            xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+            xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd" xmlns="http://www.w3.org/2000/svg"
+            xmlns:svg="http://www.w3.org/2000/svg">
+            <defs id="defs1" />
+            <sodipodi:namedview id="namedview1" pagecolor="#505050" bordercolor="#ffffff" borderopacity="1"
+                inkscape:showpageshadow="0" inkscape:pageopacity="0" inkscape:pagecheckerboard="1"
+                inkscape:deskcolor="#505050">
+                <inkscape:page x="0" y="0" width="800.98444" height="800.01562" id="page2" margin="0" bleed="0" />
+            </sodipodi:namedview>
+            <path id="big-star" d="m 520.9844,-960 -120,120 120,120 120,-120 z" style="fill:#cbcbcb;"
+                inkscape:label="big-star" />
+            <path id="small-star" d="m 720.9844,-760 -79.99999,80 79.99999,79.99999 80,-79.99999 z"
+                style="fill:#cbcbcb;;stroke-width:0.666667" inkscape:label="small-star" />
+            <path id="moon"
+                d="m 330,-959.98438 c -96,18 -174.9532,64.18229 -236.9532,138.51562 C 31.0469,-747.13542 0,-661.30209 0,-563.96876 c 0,56 10.6979,108.5 32.0312,157.5 21.3334,49.00001 50.1511,91.63542 86.4844,127.96876 36.3333,36.33333 78.9688,65.15104 127.9688,86.48437 49,21.33333 101.5,32.03125 157.5,32.03125 97.3333,0 183.3802,-30.96875 258.0468,-92.96875 74.6667,-62 120.6354,-141.03125 137.9688,-237.03125 -66,12 -130.5156,8.31771 -193.5156,-11.01563 -63,-19.33333 -118.1355,-52.66666 -165.4688,-100 -47.3333,-47.33333 -80.6667,-102.46874 -100,-165.46875 C 321.6823,-829.46875 318,-893.98438 330,-959.98438 Z M 243.9844,-846 c 4.6666,57.33333 19.0468,111.71354 43.0468,163.04687 24,51.33333 56.2865,97.30208 96.9532,137.96875 40.6666,40.66667 86.7135,72.81771 138.0468,96.48437 51.3334,23.66667 105.6354,38.1823 162.9688,43.51563 -28.6667,51.33333 -67.9688,91.68229 -117.9688,121.01562 -50,29.33334 -104.3802,43.98438 -163.0468,43.98438 -90.0001,0 -166.4532,-31.53125 -229.4532,-94.53125 -63,-63 -94.5312,-139.45312 -94.5312,-229.45313 0,-58.66666 14.5156,-113.18229 43.5156,-163.51562 29,-50.33333 69.1354,-89.84896 120.4688,-118.51562 z"
+                style="fill:#cbcbcb;" inkscape:label="moon" />
+        </svg>
+
+        <a class="main-title" href="https://github.com/BillyDoesDev/mini-project-thingy" target="_blank" rel="noopener noreferrer">Oneiro RAG</a>
+    </div>
+
+    <form class="dream-form">
+        <div class="textarea-wrapper">
+            <textarea class="dream-textarea" name="dream" placeholder="Enter your dream here" rows="1"
+                cols="70"></textarea>
+            <button type="submit" class="submit-button">send</button>
+        </div>
+    </form>
+
+    <div class="loader invisible"></div>
+    <div class="server-message invisible">Server Error (╥﹏╥)</div>
+    
+    <div class="tabs-container invisible">
+        <div class="tabs">
+            <button class="tab-btn active" data-tab="interpretation">Interpretation</button>
+            <button class="tab-btn" data-tab="visualization">Visualization</button>
+            <button class="tab-btn" data-tab="resources">Further Reading</button>
+        </div>
+    </div>
+
+    <div class="response-container">
+        <!-- Interpretation Tab Content -->
+        <div id="interpretation" class="tab-content active">
+            <div class="archetype-heading invisible"></div>
+            <div class="response-image invisible"></div>
+            <div class="response"></div>
+        </div>
         
-        <div class="chart-container">
-            <div class="chart-row">
-                <div class="chart-card">
-                    <div class="chart-title">Archetype Distribution</div>
-                    <canvas id="barChart"></canvas>
+        <!-- Visualization Tab Content -->
+        <div id="visualization" class="tab-content">
+            <div class="chart-container">
+                <div class="chart-row">
+                    <div class="chart-card">
+                        <div class="chart-title">Archetype Distribution</div>
+                        <canvas id="barChart"></canvas>
+                    </div>
+                    <div class="chart-card">
+                        <div class="chart-title">Top Archetypes</div>
+                        <canvas id="doughnutChart"></canvas>
+                    </div>
                 </div>
-                <div class="chart-card">
-                    <div class="chart-title">Top Archetypes</div>
-                    <canvas id="doughnutChart"></canvas>
+                
+                <div class="chart-row">
+                    <div class="chart-card full-width">
+                        <div class="chart-title">Archetype Frequency Over Time</div>
+                        <div class="chart-subtitle">6-Month Trend Analysis</div>
+                        <canvas id="timeSeriesChart"></canvas>
+                    </div>
                 </div>
-            </div>
-            
-            <div class="chart-row">
-                <div class="chart-card full-width">
-                    <div class="chart-title">Archetype Frequency Over Time</div>
-                    <div class="chart-subtitle">6-Month Trend Analysis</div>
-                    <canvas id="timeSeriesChart"></canvas>
-                </div>
-            </div>
-            
-            <div class="chart-row">
-                <div class="chart-card">
-                    <div class="chart-title">Dream Rarity Analysis</div>
-                    <div class="chart-subtitle">How unique is your dream pattern?</div>
-                    <div class="gauge-container">
-                        <canvas id="rarityGauge"></canvas>
-                        <div id="rarityDescription" class="rarity-description">Loading...</div>
+                
+                <div class="chart-row">
+                    <div class="chart-card">
+                        <div class="chart-title">Dream Rarity Analysis</div>
+                        <div class="chart-subtitle">How unique is your dream pattern?</div>
+                        <div class="gauge-container">
+                            <canvas id="rarityGauge"></canvas>
+                            <div id="rarityDescription" class="rarity-description">Loading...</div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
+        
+        <!-- Further Reading Tab Content -->
+        <div id="resources" class="tab-content">
+            <div class="resources-container">
+                <h2 class="resources-title">Jungian Archetypes: Further Reading</h2>
+                <div class="resources-grid">
+                    <!-- Content will be generated based on identified archetype -->
+                </div>
+            </div>
+        </div>
     </div>
-    
-    <script src="{{ url_for('static', filename='main.js') }}"></script>
+
+    <div class="footer">
+        Made with a lot of anxiety and last-minute stress.
+    </div>
 </body>
+
 </html>
